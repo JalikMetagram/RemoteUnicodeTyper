@@ -12,5 +12,6 @@
         android:layout_height="wrap_content"
         android:text="Connexion en cours..."
         tools:layout_editor_absoluteX="126dp"
-        tools:layout_editor_absoluteY="84dp" />
+        tools:layout_editor_absoluteY="84dp"
+        tools:text="Connexion en cours..." />
 </android.support.constraint.ConstraintLayout>

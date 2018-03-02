@@ -6,4 +6,45 @@
     android:layout_height="match_parent"
     tools:context="fr.parisdescartes.iut.informatique.remoteunicodetyper.TestBoutons">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonNANI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button"
+            tools:layout_editor_absoluteX="267dp"
+            tools:layout_editor_absoluteY="359dp" />
+
+        <Button
+            android:id="@+id/buttonBrimestone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button"
+            tools:layout_editor_absoluteX="98dp"
+            tools:layout_editor_absoluteY="343dp" />
+
+        <Button
+            android:id="@+id/buttonWoman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button"
+            tools:layout_editor_absoluteX="248dp"
+            tools:layout_editor_absoluteY="218dp" />
+
+        <Button
+            android:id="@+id/button8450"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button"
+            tools:layout_editor_absoluteX="122dp"
+            tools:layout_editor_absoluteY="193dp" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

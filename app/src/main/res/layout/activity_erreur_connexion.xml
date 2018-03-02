@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context="fr.parisdescartes.iut.informatique.remoteunicodetyper.ErreurConnexion">
 
+    <TextView
+        android:id="@+id/textViewErreur"
+        android:layout_width="488dp"
+        android:layout_height="708dp"
+        android:text="Le texte est null !"
+        tools:layout_editor_absoluteX="-12dp"
+        tools:layout_editor_absoluteY="-5dp" />
 </android.support.constraint.ConstraintLayout>
