@@ -6,12 +6,29 @@
     android:layout_height="match_parent"
     tools:context="fr.parisdescartes.iut.informatique.remoteunicodetyper.Connexion">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Connexion en cours..."
-        tools:layout_editor_absoluteX="126dp"
-        tools:layout_editor_absoluteY="84dp"
-        tools:text="Connexion en cours..." />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please enter the IP adress given by the Remote Unicode Typer Server on your computer" />
+
+        <EditText
+            android:id="@+id/adress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="IP Adress" />
+
+        <Button
+            android:id="@+id/conn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Connect" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
