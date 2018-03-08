@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">RemoteUnicodeTyper</string>
+    <!-- NOMS DES CATEGORIES -->
+    <string name="accents_maj">Accents majuscules</string>
+    <string name="accents_min">Accents minuscules</string>
+    <string name="grecs">Caractères grecs</string>
+    <string name="fractions">Fractions</string>
+    <string name="chiffres_romains">Chiffres romains</string>
+    <string name="ensembles">Ensembles</string>
+    <string name="operateurs">Opérateurs</string>
+    <string name="relations">Relations</string>
+    <string name="fleches">Flèches</string>
+    <string name="monnaies">Symboles monaitaires</string>
 </resources>

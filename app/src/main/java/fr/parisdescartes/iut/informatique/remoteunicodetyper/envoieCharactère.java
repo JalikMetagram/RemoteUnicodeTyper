@@ -3,6 +3,7 @@ package fr.parisdescartes.iut.informatique.remoteunicodetyper;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -11,17 +12,23 @@ import java.net.Socket;
  */
 
 public class envoieCharactère extends AsyncTask<Void,Void, Void> {
-    private Socket client;
+    private static Socket client;
     private int codepoint;
-    public envoieCharactère(Socket cli, int code){
+
+    private static PrintWriter out;
+
+    public static void setClient(Socket cli) throws IOException {
         client = cli;
+        out = new PrintWriter(client.getOutputStream ( ), true);
+    }
+
+    public envoieCharactère(int code){
         codepoint = code;
     }
 
     @Override
     protected Void doInBackground(Void... arg0){
         try{
-            PrintWriter out = new PrintWriter(client.getOutputStream ( ), true);
             out.println(Integer.toString(codepoint));
         }catch(Exception e){
             Log.i("exception", e.getMessage());

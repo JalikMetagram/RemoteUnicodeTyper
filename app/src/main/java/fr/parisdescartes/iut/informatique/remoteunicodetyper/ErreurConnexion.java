@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class ErreurConnexion extends AppCompatActivity {
 
     public static Exception erreur = null;
@@ -23,8 +21,6 @@ public class ErreurConnexion extends AppCompatActivity {
         Log.i("Message", erreur.toString());
         TextView texte = findViewById(R.id.textViewErreur);
         if(erreur != null)
-            texte.setText(erreur.getMessage());
-        else
-            texte.setText("Il y a une erreur mais g pa lu lol git gud");
+            texte.setText("Complete error : " + erreur.getMessage());
     }
 }
