@@ -74,12 +74,19 @@ public class Appli {
 					try {
 						lecture = in.readLine();
 						System.out.println("Message recieved : " + lecture);
-
+						synchronized(clipboard) {
 							affichage(new Integer(lecture));
-
+						}
+					} catch (IOException e) {
+						client.close();
+						serveur.close();
+						break;
+					} catch (IllegalStateException e) {
+						continue;
 					} catch (Exception e) {
 						client.close();
 						serveur.close();
+						System.err.println(e);
 						break;
 					}
 				}
@@ -137,7 +144,7 @@ public class Appli {
 	    MrRobot.keyPress(KeyEvent.VK_V);
 	    MrRobot.keyRelease(KeyEvent.VK_V);
 	    MrRobot.keyRelease(KeyEvent.VK_CONTROL);
-	    Thread.sleep(1); //Permet de s'assurer que le CTRL+V à été pressé avant que la ligne suivante ne s'execute
+	    Thread.sleep(25); //Permet de s'assurer que le CTRL+V à été pressé avant que la ligne suivante ne s'execute
 	    clipboard.setContents(oldContents, selection);
 	}
 
