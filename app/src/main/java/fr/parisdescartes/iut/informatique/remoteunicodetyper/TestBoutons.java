@@ -1,23 +1,29 @@
 package fr.parisdescartes.iut.informatique.remoteunicodetyper;
 
 import android.graphics.Typeface;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import java.net.Socket;
-//import android.support.design.widget.NavigationView;
-/*
+import java.util.ArrayList;
+
+import android.support.design.widget.NavigationView;
+import android.widget.TextView;
+
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-*/
+
 public class TestBoutons extends AppCompatActivity {
 
     private static Socket client = null;
@@ -27,10 +33,13 @@ public class TestBoutons extends AppCompatActivity {
 
    private static Typeface font;
     private static TableLayout tableLayout;
-    //private static NavigationView nav;
+    private static NavigationView nav;
     private static Menu menu;
-    //private static FirebaseDatabase base;
-    //private DatabaseReference blocks = base.getReference("block");
+    private static DrawerLayout mDrawerLayout;
+    private static ArrayList<Categorie> categories;
+
+    private static FirebaseDatabase base;
+    private DatabaseReference blocks = base.getReference();
     public static boolean isPrintableChar( char c ) {
         Character.UnicodeBlock block = Character.UnicodeBlock.of( c );
         return /*(!Character.isISOControl(c))
@@ -42,7 +51,7 @@ public class TestBoutons extends AppCompatActivity {
                 ;
     }
 
-    public void printButtons(int from, int to){
+    private void printButtons(int from, int to){
         if(from > to)
             throw new RuntimeException("Les codePoints passés en paramètre ne sont pas cohérents");
         tableLayout.removeAllViews();
@@ -86,22 +95,58 @@ public class TestBoutons extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        try {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_boutons);
-        try {
+
             envoieCharactère.setClient(client);
             font = Typeface.createFromAsset(getAssets(), "fonts/arialuni.ttf");
             tableLayout = (TableLayout) findViewById(R.id.chaise);
-
+            categories = new ArrayList<Categorie>();
             //blocks.addListenerForSingleValueEvent(ValueEventListener);
-            //NavigationView navigationView = findViewById(R.id.nav_view);
+            nav = findViewById(R.id.nav_view);
+            menu = nav.getMenu();
+            mDrawerLayout = findViewById(R.id.drawer_layout);
+            nav.setNavigationItemSelectedListener(
+                    new NavigationView.OnNavigationItemSelectedListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(MenuItem menuItem) {
+                            // set item as selected to persist highlight
+                            menuItem.setChecked(true);
+                            // close drawer when item is tapped
+                            mDrawerLayout.closeDrawers();
 
-            //TTESTEUH !
-            int from = 100;
-            int to = 200;
-            printButtons(from, to);
+                            // Add code here to update the UI based on the item selected
+                            // For example, swap UI fragments here
+                            Categorie categ = categories.get(menuItem.getItemId());
+                            int from = Integer.parseInt(categ.getfrom(), 16 );
+                            int to = Integer.parseInt(categ.getto(), 16 );
+                            printButtons(from, to);
+                            return true;
+                        }
+                    });
+            blocks.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    int i = 0;
+                    for(DataSnapshot data : dataSnapshot.getChildren()){
+                        String nomCategorie = data.child("block").getValue().toString();
+                        String from = data.child("from").getValue().toString();
+                        String to = data.child("to").getValue().toString();
+                        menu.add(Menu.NONE, i++, Menu.NONE, nomCategorie);
+                        categories.add(new Categorie(nomCategorie, from, to));
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.w("Fail", "Fail");
+                }
+            });
         }catch(Exception e){
-            Log.i("exception", e.getMessage());
-    }
+            Log.i("exception", e.toString());
+            finish();
+            System.exit(0);
         }
+    }
 }
