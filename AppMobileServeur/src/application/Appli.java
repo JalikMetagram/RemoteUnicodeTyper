@@ -20,7 +20,6 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 public class Appli {
-
 	//cf : https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?&page=129
 	//Port officiellement non utilisé
 	private static int PORT = 33555;
@@ -54,16 +53,16 @@ public class Appli {
 			ServerSocket serveur = new ServerSocket(PORT);
 			
 			System.out.println("Server launched on port "+Integer.toString(PORT)+" for the Remote Unicode Typer\n"
-					+ "Please connect your Android device to the same Wifi as this computer"
+					+ "Please connect your Android device to the same Wifi (or network) as this computer"
 					+ "\nThen enter the following IP Adress on the app :\n"
 					+ Inet4Address.getLocalHost().getHostAddress()
 					+ "\nIf it doesn't work, you might want to try one of the following adresses :\n"
 					+ getAllAdresses()
-					+ "\nWaiting for connexion...");
+					+ "\n\n---Waiting for connexion---");
 			
 			Socket client = serveur.accept();
 			
-			System.out.println("Android device connected !"
+			System.out.println("\nAndroid device connected !"
 					+ "\nYou can now start using the Remote Unicode Typer");
 			
 			try {
@@ -75,11 +74,12 @@ public class Appli {
 					try {
 						lecture = in.readLine();
 						System.out.println("Message recieved : " + lecture);
-						affichage(new Integer(lecture));
+
+							affichage(new Integer(lecture));
+
 					} catch (Exception e) {
 						client.close();
 						serveur.close();
-						System.err.println(e);
 						break;
 					}
 				}
@@ -109,6 +109,7 @@ public class Appli {
 		}
 	}
 
+	//CODE REPRIS DE STACK OVERFLOW
 	private static String getAllAdresses() throws SocketException {
 		StringBuilder s = new StringBuilder();
 		Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
@@ -127,18 +128,17 @@ public class Appli {
 		}
 		return s.toString();
 	}
-
-	private static void affichage(int integer) throws ClassNotFoundException, UnsupportedFlavorException, IOException {
-		//StringSelection oldContents = new StringSelection((String) clipboard.getData(DataFlavor.stringFlavor));
+	
+	private static void affichage(int integer) throws ClassNotFoundException, UnsupportedFlavorException, IOException, InterruptedException {
+		StringSelection oldContents = new StringSelection((String) clipboard.getData(DataFlavor.stringFlavor));
 		StringSelection selection = new StringSelection(new String(Character.toString((char)integer)));
 	    clipboard.setContents(selection, selection);
-	    
 	    MrRobot.keyPress(KeyEvent.VK_CONTROL);
 	    MrRobot.keyPress(KeyEvent.VK_V);
 	    MrRobot.keyRelease(KeyEvent.VK_V);
 	    MrRobot.keyRelease(KeyEvent.VK_CONTROL);
-	    
-	    //clipboard.setContents(oldContents, oldContents);
+	    Thread.sleep(1); //Permet de s'assurer que le CTRL+V à été pressé avant que la ligne suivante ne s'execute
+	    clipboard.setContents(oldContents, selection);
 	}
 
 }
