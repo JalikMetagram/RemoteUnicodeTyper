@@ -38,7 +38,7 @@ public class TestBoutons extends AppCompatActivity {
     private static DrawerLayout mDrawerLayout;
     private static ArrayList<Categorie> categories;
 
-    private static FirebaseDatabase base;
+    private static FirebaseDatabase base = FirebaseDatabase.getInstance();
     private DatabaseReference blocks = base.getReference();
     public static boolean isPrintableChar( char c ) {
         Character.UnicodeBlock block = Character.UnicodeBlock.of( c );
