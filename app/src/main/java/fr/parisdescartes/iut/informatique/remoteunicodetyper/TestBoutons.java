@@ -1,5 +1,6 @@
 package fr.parisdescartes.iut.informatique.remoteunicodetyper;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +38,7 @@ public class TestBoutons extends AppCompatActivity {
     private static Menu menu;
     private static DrawerLayout mDrawerLayout;
     private static ArrayList<Categorie> categories;
-
+    private static int color;
     private static FirebaseDatabase base = FirebaseDatabase.getInstance();
     private DatabaseReference blocks = base.getReference();
     public static boolean isPrintableChar( char c ) {
@@ -78,6 +79,16 @@ public class TestBoutons extends AppCompatActivity {
                 btn.setTypeface(font);
                 btn.setText(String.copyValueOf(texte));
                 btn.setTransformationMethod(null);
+                //Widget.Holo.Button.Small
+                btn.setBackgroundColor(color);
+                /*
+                int height = btn.getLayoutParams().height;
+                int width = btn.getLayoutParams().width;
+                height = new Double( height * 0.80).intValue();
+                width = new Double( width * 0.60).intValue();
+                btn.getLayoutParams().height = height;
+                btn.getLayoutParams().width = width;
+                */
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -98,7 +109,7 @@ public class TestBoutons extends AppCompatActivity {
         try {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_boutons);
-
+            color = getResources().getColor(R.color.buttonColor);
             envoieCharactère.setClient(client);
             font = Typeface.createFromAsset(getAssets(), "fonts/arialuni.ttf");
             tableLayout = (TableLayout) findViewById(R.id.chaise);

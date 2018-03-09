@@ -29,7 +29,9 @@ public class envoieCharactère extends AsyncTask<Void,Void, Void> {
     @Override
     protected Void doInBackground(Void... arg0){
         try{
-            out.println(Integer.toString(codepoint));
+            synchronized (out) {
+                out.println(Integer.toString(codepoint));
+            }
         }catch(Exception e){
             Log.i("exception", e.getMessage());
         }
