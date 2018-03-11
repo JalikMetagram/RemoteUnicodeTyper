@@ -30,8 +30,12 @@ public class Appli {
 	static {
 		try {
 			MrRobot = new Robot();
+			//Permet de s'assurer que le robot appuie sur Ctrl+v intantanément
+			MrRobot.setAutoDelay(0);
+			MrRobot.setAutoWaitForIdle(false);
 		} catch (AWTException e) {
 			System.out.println("Okaayyy this is REALLY not supposed to happen..."
+					+ "\nApparently your system doesn't allow for other programs to use your keyboard (and that's how this app works)"
 					+ "\nPlease contact the developers and send them the following message :");
 			throw new RuntimeException(e);
 		}
@@ -73,15 +77,19 @@ public class Appli {
 				while(true){
 					try {
 						lecture = in.readLine();
-						System.out.println("Message recieved : " + lecture);
-						synchronized(clipboard) {
+						//System.out.println("Message recieved : " + lecture); //DEBUG
+						synchronized(clipboard) { //Si on ne synchronized pas, il y a des IllegalStateException
 							affichage(new Integer(lecture));
 						}
-					} catch (IOException e) {
+					} catch (IOException | NumberFormatException e) {
+						//ReadLine va renvoyer "null" si le client s'est déconnecté,
+						//il y aura une exception sur le newInteger (d'où le NumberFormatException)
 						client.close();
 						serveur.close();
 						break;
 					} catch (IllegalStateException e) {
+						//Dans ce cas là, il est probable que le client à tapé sur trop de caractères en même temps
+						//On préfère laisser le programme continuer de s'executer : un caractère ne sera pas affiché
 						continue;
 					} catch (Exception e) {
 						client.close();
@@ -137,15 +145,21 @@ public class Appli {
 	}
 	
 	private static void affichage(int integer) throws ClassNotFoundException, UnsupportedFlavorException, IOException, InterruptedException {
-		StringSelection oldContents = new StringSelection((String) clipboard.getData(DataFlavor.stringFlavor));
+		Object oldData = clipboard.getData(DataFlavor.stringFlavor);
+		StringSelection oldContents = null;
+		if(oldData != null) {
+			oldContents = new StringSelection((String) oldData);
+		}
 		StringSelection selection = new StringSelection(new String(Character.toString((char)integer)));
 	    clipboard.setContents(selection, selection);
 	    MrRobot.keyPress(KeyEvent.VK_CONTROL);
 	    MrRobot.keyPress(KeyEvent.VK_V);
 	    MrRobot.keyRelease(KeyEvent.VK_V);
 	    MrRobot.keyRelease(KeyEvent.VK_CONTROL);
-	    Thread.sleep(25); //Permet de s'assurer que le CTRL+V à été pressé avant que la ligne suivante ne s'execute
-	    clipboard.setContents(oldContents, selection);
+	    Thread.sleep(20); //Permet de s'assurer que le CTRL+V à été pressé avant que la ligne suivante ne s'execute
+	    if(oldData != null) {
+	    	clipboard.setContents(oldContents, selection);
+	    }
 	}
 
 }

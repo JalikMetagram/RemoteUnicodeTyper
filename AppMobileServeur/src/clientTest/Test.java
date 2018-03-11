@@ -9,7 +9,7 @@ public class Test {
 		try {
 			Socket sock = new Socket("localhost", 33555);
 			PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-			for(int i = 100 ; i < 200 ; ++i) {
+			for(int i = 100 ; i < 101 ; ++i) {
 				Thread.sleep(3000);
 				out.println(i);
 			}
