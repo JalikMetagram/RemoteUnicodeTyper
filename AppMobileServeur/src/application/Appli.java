@@ -145,11 +145,14 @@ public class Appli {
 	}
 	
 	private static void affichage(int integer) throws ClassNotFoundException, UnsupportedFlavorException, IOException, InterruptedException {
-		Object oldData = clipboard.getData(DataFlavor.stringFlavor);
-		StringSelection oldContents = null;
-		if(oldData != null) {
-			oldContents = new StringSelection((String) oldData);
+		StringSelection oldContents;
+		try {
+			oldContents =  new StringSelection((String) clipboard.getData(DataFlavor.stringFlavor));
+		} catch (UnsupportedFlavorException e) {
+			//Cette exception survient lorsqu'il n'y a rien dans le presse papier
+			oldContents =  null; //Dans ce cas là, il n'y a aucun contenu à retenir 
 		}
+		
 		StringSelection selection = new StringSelection(new String(Character.toString((char)integer)));
 	    clipboard.setContents(selection, selection);
 	    MrRobot.keyPress(KeyEvent.VK_CONTROL);
@@ -157,7 +160,7 @@ public class Appli {
 	    MrRobot.keyRelease(KeyEvent.VK_V);
 	    MrRobot.keyRelease(KeyEvent.VK_CONTROL);
 	    Thread.sleep(20); //Permet de s'assurer que le CTRL+V à été pressé avant que la ligne suivante ne s'execute
-	    if(oldData != null) {
+	    if(oldContents != null) {
 	    	clipboard.setContents(oldContents, selection);
 	    }
 	}
