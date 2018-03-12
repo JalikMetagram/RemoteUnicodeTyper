@@ -2,6 +2,7 @@ package fr.parisdescartes.iut.informatique.remoteunicodetyper;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -37,6 +39,7 @@ public class TestBoutons extends AppCompatActivity {
     private static NavigationView nav;
     private static Menu menu;
     private static DrawerLayout mDrawerLayout;
+    private static FrameLayout frameLayout;
     private static ArrayList<Categorie> categories;
     private static ScrollView sv;
     private static int color;
@@ -75,7 +78,7 @@ public class TestBoutons extends AppCompatActivity {
             nav = findViewById(R.id.nav_view);
             menu = nav.getMenu();
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            //On doit cast en DrawerLayout, sinon on ne peux pas utiliser openDrawer sans qu'il y ai d'Exception
+            frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
 
             //On créé les catégories Unicode
             categories = new ArrayList<Categorie>();
@@ -84,6 +87,8 @@ public class TestBoutons extends AppCompatActivity {
             blocks.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    menu.removeGroup(Menu.NONE);
+                    categories.clear();
                     int i = 0;
                     for(DataSnapshot data : dataSnapshot.getChildren()){
                         String nomCategorie = data.child("block").getValue().toString();
@@ -129,7 +134,7 @@ public class TestBoutons extends AppCompatActivity {
                     });
 
             //On ouvre les drawers pour que l'utilisateur puisse sélectionner une catégorie
-            // mDrawerLayout.openDrawer(mDrawerLayout);
+            mDrawerLayout.openDrawer(GravityCompat.START);
         }catch(Exception e){
             Log.i("exception", e.toString());
             finish();
@@ -140,7 +145,7 @@ public class TestBoutons extends AppCompatActivity {
     //---------FONCTIONS DE GENERATIONS DES BOUTONS------------
 
     private static final int column = 4;
-    private static final int nbButtonsPerPage = column*11;
+    private static final int nbButtonsPerPage = column*10;
 
     //Cette fonction lance la recursion de génération de pages de boutons
     private void initRecurPrintButtons(final int from, final int to)
@@ -224,8 +229,6 @@ public class TestBoutons extends AppCompatActivity {
         if(to > firstTo)
             to = firstTo;
         int total = to - from + 1;
-        if(to == 255)
-            Log.i("debug", "breakpoint");
         if(total > nbButtonsPerPage)
             throw new Exception("Il y a trop de boutons sur cette page !");
 

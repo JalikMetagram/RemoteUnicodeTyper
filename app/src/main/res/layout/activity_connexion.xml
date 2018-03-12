@@ -23,13 +23,36 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number|numberSigned|numberDecimal|phone"
-            android:text="192.168." />
+            android:text="192.168."
+            android:textColor="@color/fontColor" />
 
         <Button
             android:id="@+id/conn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Connect"
             android:textAllCaps="false"
-            android:text="Connect" />
+            android:textColor="@color/colorPrimaryDark" />
+
+        <CheckBox
+            android:id="@+id/checkPort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Use a diffrent Port ?"
+            android:textColor="@color/fontColor" />
+
+        <EditText
+            android:id="@+id/textPort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number|numberSigned|numberDecimal|phone"
+            android:text="33555"
+            android:textColor="@color/fontColor" />
+
+        <TextView
+            android:id="@+id/invisibleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
