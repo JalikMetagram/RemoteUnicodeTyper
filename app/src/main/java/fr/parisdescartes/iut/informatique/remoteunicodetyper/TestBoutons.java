@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
@@ -34,7 +35,7 @@ public class TestBoutons extends AppCompatActivity {
         client = cli;
     }
     private static MenuItem lastItemSelected = null;
-   private static Typeface font;
+    private static Typeface font;
     private static TableLayout tableLayout;
     private static NavigationView nav;
     private static Menu menu;
@@ -104,7 +105,7 @@ public class TestBoutons extends AppCompatActivity {
                 }
             });
 
-            //On initialise le code qui se lancera lorsqu'on cliquera sur une caégorie
+            //On initialise le code qui se lancera lorsqu'on cliquera sur une catégorie
             nav.setNavigationItemSelectedListener(
                     new NavigationView.OnNavigationItemSelectedListener() {
                         @Override
