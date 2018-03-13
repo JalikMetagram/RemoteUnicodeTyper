@@ -148,8 +148,8 @@ public class Appli {
 		StringSelection oldContents;
 		try {
 			oldContents =  new StringSelection((String) clipboard.getData(DataFlavor.stringFlavor));
-		} catch (UnsupportedFlavorException e) {
-			//Cette exception survient lorsqu'il n'y a rien dans le presse papier
+		} catch (Exception e) {
+			//Une exception survient lorsqu'il n'y a rien dans le presse papier
 			oldContents =  null; //Dans ce cas là, il n'y a aucun contenu à retenir 
 		}
 		
