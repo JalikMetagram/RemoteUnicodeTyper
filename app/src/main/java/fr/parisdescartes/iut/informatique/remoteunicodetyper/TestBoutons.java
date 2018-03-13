@@ -2,11 +2,15 @@ package fr.parisdescartes.iut.informatique.remoteunicodetyper;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +24,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import android.support.design.widget.NavigationView;
+import android.widget.TextView;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -57,6 +62,8 @@ public class TestBoutons extends AppCompatActivity {
                 ;
         */
     }
+
+    //---------ON CREATE-----------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +117,30 @@ public class TestBoutons extends AppCompatActivity {
                     new NavigationView.OnNavigationItemSelectedListener() {
                         @Override
                         public boolean onNavigationItemSelected(MenuItem menuItem) {
-                            if(lastItemSelected != null)
+                            if(lastItemSelected != null) {
                                 lastItemSelected.setChecked(false);
+                                //CHANGEMENT COULEUR -> NOIR
+                                SpannableString spanString = new SpannableString(lastItemSelected.getTitle().toString());
+                                spanString.setSpan(new ForegroundColorSpan
+                                        (ContextCompat.getColor(
+                                                getApplicationContext(),
+                                                R.color.blackColor)),
+                                        0,
+                                        spanString.length(),
+                                        0);
+                                lastItemSelected.setTitle(spanString);
+                            }
                             menuItem.setChecked(true);
+                            //CHANGEMENT COULEUR -> BLANC
+                            SpannableString spanString = new SpannableString(menuItem.getTitle().toString());
+                            spanString.setSpan(new ForegroundColorSpan
+                                            (ContextCompat.getColor(
+                                                    getApplicationContext(),
+                                                    R.color.fontColor)),
+                                    0,
+                                    spanString.length(),
+                                    0);
+                            menuItem.setTitle(spanString);
                             lastItemSelected = menuItem;
                             // close drawer when item is tapped
                             mDrawerLayout.closeDrawers();
@@ -142,6 +170,17 @@ public class TestBoutons extends AppCompatActivity {
             System.exit(0);
         }
     }
+
+    //---------ON BACK PRESSED-----------
+
+    @Override
+    public void onBackPressed() {
+        if(mDrawerLayout.isDrawerOpen(Gravity.START))
+            super.onBackPressed();
+        else
+            mDrawerLayout.openDrawer(GravityCompat.START);
+    }
+
 
     //---------FONCTIONS DE GENERATIONS DES BOUTONS------------
 
