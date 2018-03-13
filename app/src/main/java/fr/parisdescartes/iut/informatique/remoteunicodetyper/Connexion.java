@@ -15,21 +15,32 @@ import android.widget.TextView;
 import java.net.Socket;
 
 public class Connexion extends AppCompatActivity {
+    private static Intent goMain;
+    private static Intent goErreur;
+    private static Button connexion;
+    private static EditText adresse;
+    private static TextView enCours;
+    private static CheckBox boxPort;
+    private static EditText portTexte;
+    private static TextView instructions;
+    private static TextView cour;
 
     private static final int PORT = 33555;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connexion);
-        Log.i("OH", "connexion");
-        final Intent goMain = new Intent(Connexion.this, TestBoutons.class);
-        final Intent goErreur = new Intent(Connexion.this, ErreurConnexion.class);
-        Button connexion = findViewById(R.id.conn);
-        final EditText adresse = findViewById(R.id.adress);
-        final CheckBox boxPort = findViewById(R.id.checkPort);
-        final EditText portTexte = findViewById(R.id.textPort);
-        final TextView instructions = findViewById(R.id.invisibleTextView);
-        final TextView cour = findViewById(R.id.cour);
+        goMain = new Intent(Connexion.this, TestBoutons.class);
+        goErreur = new Intent(Connexion.this, ErreurConnexion.class);
+        connexion = findViewById(R.id.conn);
+        adresse = findViewById(R.id.adress);
+        boxPort = findViewById(R.id.checkPort);
+        portTexte = findViewById(R.id.textPort);
+        instructions = findViewById(R.id.invisibleTextView);
+        enCours = findViewById(R.id.tryConnect);
+        enCours.setVisibility(View.INVISIBLE);
+        cour = findViewById(R.id.cour);
         cour.setText("C:\\[path]\\RUTServer.exe [port]");
         instructions.setText("If you change the port, please be sure to launch the RUTServer on the"
                 + " same port ! To do that, open the command prompt on your computer and type :");
@@ -53,34 +64,53 @@ public class Connexion extends AppCompatActivity {
                 }
             }
         });
+        final Connexion conn = this;
         connexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                connexionServeur client = null;
                 try{
                     //On doit déléguer les interractions Client-Serveur à un autre
                     //Sinon on a : android.os.NetworkOnMainThreadException
+                    enCours.setText("Trying to connect to the RUTServer...");
+                    enCours.setVisibility(View.VISIBLE);
                     int port;
                     try{
                         port = Integer.parseInt(portTexte.getText().toString());
                     }
                     catch(NumberFormatException e){
                         port = PORT;
+                        portTexte.setText(Integer.toString(port));
                     }
-                    connexionServeur client
-                            = new connexionServeur(adresse.getText().toString(), port);
-                    client.execute();
 
-                    client.get(); //Permet d'attendre la fin de l'execution
+                    client = new connexionServeur(adresse.getText().toString(), port);
+                    //Le killerConnection est sencé arrêter le client s'il prends trop de temps
+                    //Cependant nous n'avons pas réussi à la mettre en place : décommenter ce code
+                    //bloque la connexion à l'ordinateur, même si l'IP entré est le bon
+                    //killerConnexion kc = new killerConnexion(client, 7);
+                    //kc.execute();
+                    //client.setKiller(kc);
+                    client.execute();
+                    client.get();
                     Socket cli = client.getSocket();
 
-                    //Lancer activité Main avec client en paramètre
                     TestBoutons.setClient(cli);
+                    enCours.setVisibility(View.INVISIBLE);
                     startActivity(goMain);
-                }catch(Exception e){
-                    ErreurConnexion.setException(e);
-                    startActivity(goErreur);
+
+                }catch(Exception e) {
+                    //Si il y a une exception, c'est qu'on a pas pu se connecter
+                     if (client != null)
+                        if (!client.isCancelled())
+                            client.cancel(true);
+                     enCours.setText("Impossible to connect.\nComplete error : " + e.getMessage());
+                    //ErreurConnexion.setException(e);
+                    //startActivity(goErreur); Impossible de lancer cette activité,
+                    //je ne sais pas pourquoi...
                 }
             }
         });
+
+
     }
 }

@@ -165,7 +165,7 @@ public class TestBoutons extends AppCompatActivity {
             //On ouvre les drawers pour que l'utilisateur puisse sélectionner une catégorie
             mDrawerLayout.openDrawer(GravityCompat.START);
         }catch(Exception e){
-            Log.i("exception", e.toString());
+            Log.i("AAAAAexception", e.toString());
             finish();
             System.exit(0);
         }

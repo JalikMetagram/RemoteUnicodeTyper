@@ -67,7 +67,9 @@ public class Appli {
 			Socket client = serveur.accept();
 			
 			System.out.println("\nAndroid device connected !"
-					+ "\nYou can now start using the Remote Unicode Typer");
+					+ "\nYou can now start using the Remote Unicode Typer"
+					+ "\n\n\tIf anything shows up after this message, you will have to restart the Server to use the app"
+					+ "\n\nIn the meantime, DO NOT CLOSE THIS WINDOW !");
 			
 			try {
 				BufferedReader in = new BufferedReader (new InputStreamReader(client.getInputStream ( )));
