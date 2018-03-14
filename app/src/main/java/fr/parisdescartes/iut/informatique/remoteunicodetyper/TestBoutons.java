@@ -14,9 +14,11 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -209,6 +211,8 @@ public class TestBoutons extends AppCompatActivity {
         if(from > firstFrom) {
             TableRow previousRow = new TableRow(this);
             Button previousButton = new Button(this);
+
+
             previousButton.setText("Previous");
             previousButton.setTransformationMethod(null);
             previousButton.setTextColor(color);
@@ -300,13 +304,18 @@ public class TestBoutons extends AppCompatActivity {
                 btn.setTransformationMethod(null);
                 btn.setBackgroundColor(color);
                 /* Essai de redimenssionage de boutons... Echec
+
                 int height = btn.getLayoutParams().height;
                 int width = btn.getLayoutParams().width;
                 height = new Double( height * 0.80).intValue();
                 width = new Double( width * 0.60).intValue();
-                btn.getLayoutParams().height = height;
-                btn.getLayoutParams().width = width;
+
+                ViewGroup.LayoutParams params = btn.getLayoutParams();
+                params.width=width;
+                params.height=height;
+                btn.setLayoutParams(params);
                 */
+
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

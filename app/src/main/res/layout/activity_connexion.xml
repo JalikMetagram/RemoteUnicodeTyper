@@ -11,10 +11,22 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remote Unicode Typer"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:layout_marginBottom="100dp"/>
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
             android:text="Please enter the IP adress given by the Remote Unicode Typer Server on your computer" />
 
         <EditText
@@ -57,6 +69,7 @@
 
         <TextView
             android:id="@+id/cour"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -64,6 +77,7 @@
             android:id="@+id/tryConnect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Trying to connect to the RUTServer..." />
 
     </LinearLayout>
