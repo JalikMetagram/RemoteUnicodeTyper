@@ -19,15 +19,34 @@
             android:text="Remote Unicode Typer"
             android:gravity="center"
             android:textSize="25dp"
-            android:layout_marginBottom="100dp"/>
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/install"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please launch the RUTServer on your computer which you can download via this link :"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="https://tinyurl.com/RUTServer"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"/>
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginBottom="20dp"
-            android:text="Please enter the IP adress given by the Remote Unicode Typer Server on your computer" />
+            android:textSize="15dp"
+            android:layout_marginBottom="10dp"
+            android:text="Please connect your Android Device to the same network as your computer. Then enter the IP adress given by the Remote Unicode Typer Server on your computer :" />
 
         <EditText
             android:id="@+id/adress"

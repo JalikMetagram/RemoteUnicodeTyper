@@ -24,6 +24,7 @@ public class Connexion extends AppCompatActivity {
     private static EditText portTexte;
     private static TextView instructions;
     private static TextView cour;
+    private static TextView link;
 
     private static final int PORT = 33555;
 
@@ -41,13 +42,16 @@ public class Connexion extends AppCompatActivity {
         enCours = findViewById(R.id.tryConnect);
         enCours.setVisibility(View.INVISIBLE);
         cour = findViewById(R.id.cour);
+        link = findViewById(R.id.link);
         cour.setText("C:\\[path]\\RUTServer.exe [port]");
         instructions.setText("If you change the port, please be sure to launch the RUTServer on the"
                 + " same port ! To do that, open the command prompt on your computer and type :");
         instructions.setVisibility(View.INVISIBLE);
         portTexte.setVisibility(View.INVISIBLE);
         cour.setVisibility(View.INVISIBLE);
-        cour.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/cour.ttf"));
+        Typeface courrier = Typeface.createFromAsset(getAssets(), "fonts/cour.ttf");
+        cour.setTypeface(courrier);
+        link.setTypeface(courrier);
         boxPort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
