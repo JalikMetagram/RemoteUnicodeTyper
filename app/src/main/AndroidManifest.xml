@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/rut_v2"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/rut_logo"
+        android:roundIcon="@mipmap/rut_v2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Connexion">
@@ -19,10 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".ErreurConnexion" />
-        <activity
-            android:name=".TestBoutons"
+            android:name=".UnicodeTable"
             android:screenOrientation="portrait"
             >
         </activity>

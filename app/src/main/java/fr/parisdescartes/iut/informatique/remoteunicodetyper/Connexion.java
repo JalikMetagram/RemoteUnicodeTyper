@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -32,8 +31,7 @@ public class Connexion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connexion);
-        goMain = new Intent(Connexion.this, TestBoutons.class);
-        goErreur = new Intent(Connexion.this, ErreurConnexion.class);
+        goMain = new Intent(Connexion.this, UnicodeTable.class);
         connexion = findViewById(R.id.conn);
         adresse = findViewById(R.id.adress);
         boxPort = findViewById(R.id.checkPort);
@@ -78,6 +76,7 @@ public class Connexion extends AppCompatActivity {
                     //Sinon on a : android.os.NetworkOnMainThreadException
                     enCours.setText("Trying to connect to the RUTServer...");
                     enCours.setVisibility(View.VISIBLE);
+
                     int port;
                     try{
                         port = Integer.parseInt(portTexte.getText().toString());
@@ -94,11 +93,14 @@ public class Connexion extends AppCompatActivity {
                     //killerConnexion kc = new killerConnexion(client, 7);
                     //kc.execute();
                     //client.setKiller(kc);
+                    //kc = null;
+                    //Le code de killerConnexion est toujours disponible en bas de cette page, en commentaire
                     client.execute();
+                    Thread.sleep(100); //On laisse le temps d'afficher le texte
                     client.get();
                     Socket cli = client.getSocket();
 
-                    TestBoutons.setClient(cli);
+                    UnicodeTable.setClient(cli);
                     enCours.setVisibility(View.INVISIBLE);
                     startActivity(goMain);
 
@@ -108,13 +110,37 @@ public class Connexion extends AppCompatActivity {
                         if (!client.isCancelled())
                             client.cancel(true);
                      enCours.setText("Impossible to connect.\nComplete error : " + e.getMessage());
-                    //ErreurConnexion.setException(e);
-                    //startActivity(goErreur); Impossible de lancer cette activité,
-                    //je ne sais pas pourquoi...
                 }
             }
         });
-
-
     }
 }
+/*
+package fr.parisdescartes.iut.informatique.remoteunicodetyper;
+
+import android.os.AsyncTask;
+
+public class killerConnexion extends AsyncTask<Void,Void, Void> {
+
+    private connexionServeur conn = null;
+    private int millis;
+    public killerConnexion(connexionServeur conn, int secondes){
+        //super();
+        this.conn = conn;
+        this.millis = secondes * 1000;
+    }
+
+    @Override
+    protected Void doInBackground(Void... voids) {
+        try {
+            Thread.currentThread().sleep(millis);
+            if(conn.getStatus()==Status.RUNNING)
+                conn.cancel(true);
+        }catch(InterruptedException e){
+            conn.setKiller(null);
+        }
+        return null;
+    }
+}
+
+ */

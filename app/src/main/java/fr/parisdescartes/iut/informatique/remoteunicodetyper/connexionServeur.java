@@ -16,17 +16,20 @@ public class connexionServeur extends AsyncTask<Void,Void, Void> {
     private int dstPort;
     private Socket client = null;
     private Exception probleme = null;
-    private killerConnexion kc = null;
-    public void setKiller(killerConnexion k){
-        kc = k;
-    }
+    private Exception tooLong = new Exception("The connexion is taking to much time... Please be sure that :" +
+            "\n\t- Your computer and your Android Device are connected on the same Network" +
+            "\n\t- You entered the right IP Adress" +
+            "\n\t- You launched the RUTServer on your computer with the same port as the" +
+            " one set in the connexion page (they're both set to 33555 by default)");
+
+    //private killerConnexion kc = null; Le killerConnexion a finalement été supprimé
+    //public void setKiller(killerConnexion k){
+    //    kc = k;
+    //}
+
     public Socket getSocket() throws Exception{
         if(client == null && probleme == null)
-            throw new Exception("The connexion is taking to much time... Please be sure that :" +
-                    "\n\t- Your computer and your Android Device are connected on the same Network" +
-                    "\n\t- You entered the right IP Adress" +
-                    "\n\t- You launched the RUTServer on your computer with the same port as the" +
-                    " one set in the connexion page (they're both set to 33555 by default)");
+            throw tooLong;
         else if(probleme != null)
             throw new Exception(probleme);
         else
@@ -34,7 +37,6 @@ public class connexionServeur extends AsyncTask<Void,Void, Void> {
     }
 
     public connexionServeur(String addr, int port) {
-        super();
         dstAddress = addr;
         dstPort = port;
     }
@@ -42,11 +44,12 @@ public class connexionServeur extends AsyncTask<Void,Void, Void> {
     protected Void doInBackground(Void... arg0){
         try {
             client = new Socket(dstAddress, dstPort);
-            if(kc != null)
-                kc.cancel(true);
+            //if(kc != null)
+            //    kc.cancel(true);
         }catch(Exception e){
             probleme = e;
         }
+        //kc = null;
         return null;
     }
 
@@ -55,7 +58,8 @@ public class connexionServeur extends AsyncTask<Void,Void, Void> {
         try {
             if (client != null)
                 client.close();
-        }catch(IOException e){}
+        }catch(IOException e){  }
+        probleme = tooLong;
         super.onCancelled(aVoid);
     }
 }
