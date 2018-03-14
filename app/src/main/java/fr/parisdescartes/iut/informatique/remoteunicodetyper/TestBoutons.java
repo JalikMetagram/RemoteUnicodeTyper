@@ -305,7 +305,6 @@ public class TestBoutons extends AppCompatActivity {
                 btn.setBackgroundColor(color);
                 /* Essai de redimenssionage de boutons... Echec
 
-                 */
                 int height = btn.getLayoutParams().height;
                 int width = btn.getLayoutParams().width;
                 height = new Double( height * 0.80).intValue();
@@ -315,6 +314,7 @@ public class TestBoutons extends AppCompatActivity {
                 params.width=width;
                 params.height=height;
                 btn.setLayoutParams(params);
+                */
 
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
