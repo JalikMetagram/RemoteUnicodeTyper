@@ -41,9 +41,9 @@ public class Connexion extends AppCompatActivity {
         enCours.setVisibility(View.INVISIBLE);
         cour = findViewById(R.id.cour);
         link = findViewById(R.id.link);
-        cour.setText("C:\\[path]\\RUTServer.exe [port]");
+        cour.setText("java application.Appli [port]");
         instructions.setText("If you change the port, please be sure to launch the RUTServer on the"
-                + " same port ! To do that, open the command prompt on your computer and type :");
+                + " same port ! To do that, modify the RUTServer.bat on your computer and change the line :");
         instructions.setVisibility(View.INVISIBLE);
         portTexte.setVisibility(View.INVISIBLE);
         cour.setVisibility(View.INVISIBLE);
@@ -72,8 +72,7 @@ public class Connexion extends AppCompatActivity {
             public void onClick(View v) {
                 connexionServeur client = null;
                 try{
-                    //On doit déléguer les interractions Client-Serveur à un autre
-                    //Sinon on a : android.os.NetworkOnMainThreadException
+
                     enCours.setText("Trying to connect to the RUTServer...");
                     enCours.setVisibility(View.VISIBLE);
 
@@ -86,7 +85,10 @@ public class Connexion extends AppCompatActivity {
                         portTexte.setText(Integer.toString(port));
                     }
 
+                    //On doit déléguer les interractions Client-Serveur à un autre
+                    //Sinon on a : android.os.NetworkOnMainThreadException
                     client = new connexionServeur(adresse.getText().toString(), port);
+
                     //Le killerConnection est sencé arrêter le client s'il prends trop de temps
                     //Cependant nous n'avons pas réussi à la mettre en place : décommenter ce code
                     //bloque la connexion à l'ordinateur, même si l'IP entré est le bon
